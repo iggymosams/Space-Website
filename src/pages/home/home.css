@@ -1,0 +1,60 @@
+@import '../../index.css';
+.home {
+    margin: 0;
+    height: 100vh;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+}
+
+.home__container {
+    text-align: center;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    -webkit-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+    z-index: 1;
+}
+
+.home__title {
+    color: var(--bg);
+    font-size: 70px;
+    cursor: default;
+}
+
+.homeNav {
+    display: flex;
+    justify-content: space-between;
+}
+
+.homeNav__link {
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0 5px 5px -3px rgba(0, 0, 0, 0.2),
+        0 8px 10px 1px rgba(0, 0, 0, 0.14), 0 3px 14px 2px rgba(0, 0, 0, 0.12);
+    transition: 0.2s ease-in-out;
+    text-decoration: none;
+    color: var(--text-color);
+    background-color: var(--bg);
+    font-weight: 600;
+}
+
+.homeNav__link:hover {
+    box-shadow: 0 11px 15px -7px rgba(0, 0, 0, 0.2),
+        0 24px 38px 3px rgba(0, 0, 0, 0.14), 0 9px 46px 8px rgba(0, 0, 0, 0.12);
+    transform: scale(1.0775);
+}
+
+@media screen and (max-width: 600px) {
+    .home__title {
+        font-size: 10vw;
+    }
+    .homeNav__link {
+        padding: 5vw;
+    }
+}
+@media screen and (min-width: 800px) {
+    .home__title {
+        width: 572px;
+    }
+}
