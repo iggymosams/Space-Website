@@ -20,14 +20,13 @@ const APOD = ({ queryDate }: any) => {
     );
 
     useEffect(() => {
-        navigate(`/apod?date=${apodDate.toISOString().substring(0, 10)}`);
-        var url = `${API_URL}?date=${apodDate.toISOString().substring(0, 10)}`;
-        getAPOD(url);
-    }, [apodDate]);
+        updateDate();
+    }, []);
 
     function updateDate() {
         console.log(apodDate.toISOString());
         navigate(`/apod?date=${apodDate.toISOString().substring(0, 10)}`);
+        document.title = `${apodDate.toLocaleDateString()} APOD | IGGYMOSAMS SPACE WEBSITE`;
         var url = `${API_URL}?date=${apodDate.toISOString().substring(0, 10)}`;
         getAPOD(url);
     }

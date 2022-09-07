@@ -1,12 +1,13 @@
-import React, { useCallback } from 'react';
+import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import Particles from 'react-tsparticles';
-import { loadFull } from 'tsparticles';
-import { Container, Engine } from 'tsparticles-engine';
 import Stars from '../../components/stars/stars';
 import './home.css';
 
 const Home = () => {
+    useEffect(() => {
+        document.title = 'Home | IGGYMOSAMS SPACE WEBSITE';
+    }, []);
+
     return (
         <div
             className="home noselect"

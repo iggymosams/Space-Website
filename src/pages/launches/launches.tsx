@@ -13,6 +13,8 @@ const Launches = () => {
     useEffect(() => {
         var url = `${API_URL}`;
         console.log(url);
+        document.title = 'Launches | IGGYMOSAMS SPACE WEBSITE';
+
         fetch(url)
             .then((resp) => resp.json())
             .then((data) => {
