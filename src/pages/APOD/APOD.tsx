@@ -1,8 +1,6 @@
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { APODData } from '../../types';
-import Particles from 'react-tsparticles';
-import { loadFull } from 'tsparticles';
-import { Container, Engine } from 'tsparticles-engine';
+import { useNavigate } from 'react-router-dom';
 import './APOD.css';
 import Navbar from '../../components/navbar/navbar';
 import DatePicker from 'react-date-picker';
@@ -11,65 +9,36 @@ import Stars from '../../components/stars/stars';
 const API_URL = `https://apod.ellanan.com/api`;
 // const API_URL = `https://apod.ellanan.com/api?date=2022-02-28`;
 
-const APOD = () => {
+const APOD = ({ queryDate }: any) => {
+    console.log('QUERY: ', queryDate);
+
+    const navigate = useNavigate();
+
     const [apodData, setApodData] = useState<APODData>();
-    const [apodDate, setApodDate] = useState<Date>(new Date());
-    const [isOpen, setIsOpen] = useState(false);
-    const [height, setHeight] = useState(0);
-    const [width, setWidth] = useState(0);
-    const image = useRef<HTMLDivElement>(null);
+    const [apodDate, setApodDate] = useState<Date>(
+        queryDate ? new Date(queryDate) : new Date()
+    );
 
     useEffect(() => {
+        navigate(`/apod?date=${apodDate.toISOString().substring(0, 10)}`);
         var url = `${API_URL}?date=${apodDate.toISOString().substring(0, 10)}`;
         getAPOD(url);
-    }, [apodData]);
+    }, [apodDate]);
 
-    useEffect(() => {
-        if (image.current) {
-            let height = image.current.clientHeight;
-            let width = image.current.clientWidth;
-            setHeight(height);
-            setWidth(width);
-        }
-    }, []);
-    React.useEffect(() => {
-        function handleResize() {
-            if (image.current) {
-                let height = image.current.clientHeight;
-                let width = image.current.clientWidth;
-                setHeight(height);
-                setWidth(width);
-            }
-        }
+    function updateDate() {
+        console.log(apodDate.toISOString());
+        navigate(`/apod?date=${apodDate.toISOString().substring(0, 10)}`);
+        var url = `${API_URL}?date=${apodDate.toISOString().substring(0, 10)}`;
+        getAPOD(url);
+    }
 
-        window.addEventListener('resize', handleResize);
-    });
     const getAPOD = (URL: string) => {
         fetch(URL)
             .then((resp) => resp.json())
-            .then((data) => setApodData(data));
+            .then((data) => setApodData(data))
+            .catch((e) => {});
     };
 
-    const handleChange = (e: any) => {
-        setIsOpen(!isOpen);
-        setApodDate(e);
-        console.log(apodDate);
-    };
-    const handleClick = (e: any) => {
-        e.preventDefault();
-        setIsOpen(!isOpen);
-    };
-    const handleDateClick = (e: any) => {
-        if (apodDate === null) {
-            return;
-        }
-        var url = `${API_URL}?date=${apodDate.toISOString().substring(0, 10)}`;
-        getAPOD(url);
-    };
-
-    // if (apodData === undefined) {
-    //     return <div>Loading APOD data...</div>;
-    // }
     return (
         <div className="apod">
             <Navbar />
@@ -78,9 +47,9 @@ const APOD = () => {
                     {apodData !== undefined ? (
                         <img
                             src={apodData.url}
-                            alt={`Error Loading Image: ${apodData.title}`}
+                            alt={`Error Loading: ${apodData.title}`}
                             className="apod__image"
-                        />
+                        ></img>
                     ) : (
                         <span>Loading Image</span>
                     )}
@@ -116,44 +85,42 @@ const APOD = () => {
                 <button
                     className="apod__btn"
                     onClick={(e) => {
-                        var first = new Date(1995, 5, 21);
+                        updateDate();
+
+                        var oldest = new Date(2000, 0, 1);
                         var date = new Date(apodDate);
-                        date.setDate(date.getDate() - 1);
-                        if (date < first) {
-                            apodDate.setDate(apodDate.getDate() + 1);
+                        if (date > oldest) {
+                            apodDate.setDate(apodDate.getDate() - 1);
                             setApodDate(apodDate);
+                            updateDate();
                         } else {
-                            console.log('future');
+                            console.log('past');
                         }
-                        apodDate.setDate(apodDate.getDate() - 1);
-                        setApodDate(apodDate);
                     }}
                 >
                     Previous Day
                 </button>
                 <div className="apod__datepick">
                     <DatePicker
-                        onChange={(v: React.SetStateAction<Date>) => {
-                            if (v) {
-                                setApodDate(v);
-                            }
-                        }}
+                        onChange={setApodDate}
                         value={apodDate}
                         maxDate={new Date()}
-                        minDate={new Date(1995, 5, 21)}
+                        minDate={new Date(2000, 0, 1)}
+                        format={'y-MM-dd'}
                         clearIcon={<></>}
+                        calendarType="US"
+                        disabled
                     />
                 </div>
                 <button
                     className="apod__btn"
                     onClick={(e) => {
                         var today = new Date();
-                        today.setHours(23, 59, 59, 998);
                         var date = new Date(apodDate);
-                        date.setDate(date.getDate() + 1);
                         if (date < today) {
                             apodDate.setDate(apodDate.getDate() + 1);
                             setApodDate(apodDate);
+                            updateDate();
                         } else {
                             console.log('future');
                         }
