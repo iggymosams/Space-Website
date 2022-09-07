@@ -1,4 +1,8 @@
 @import '../../index.css';
+
+.navBar {
+    width: 100%;
+}
 ul {
     display: flex;
     list-style: none;
