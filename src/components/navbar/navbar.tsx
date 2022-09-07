@@ -14,11 +14,11 @@ const Navbar = () => {
                     <Link className="navBar__link" to="/apod">
                         APOD
                     </Link>
-
+                    {/* 
                     <Link className="navBar__link" to="/jwst">
                         JWST
-                    </Link>
-                    <Link className="navBar__link" to="/launch">
+                    </Link> */}
+                    <Link className="navBar__link" to="/launches">
                         Launches
                     </Link>
                 </ul>

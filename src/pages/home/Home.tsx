@@ -18,9 +18,9 @@ const Home = () => {
                     <Link className="homeNav__link" to="/apod">
                         APOD
                     </Link>
-                    <Link className="homeNav__link" to="/jwst">
+                    {/* <Link className="homeNav__link" to="/jwst">
                         JWST
-                    </Link>
+                    </Link> */}
                     <Link className="homeNav__link" to="/launches">
                         Launches
                     </Link>
