@@ -4,6 +4,7 @@ export interface APODData {
     url: string;
     copyright: string;
     explanation: string;
+    media_type: string;
 }
 
 export interface LaunchData {

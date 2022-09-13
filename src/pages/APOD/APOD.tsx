@@ -44,11 +44,18 @@ const APOD = ({ queryDate }: any) => {
             <div className="apod__container">
                 <div className="apod__card">
                     {apodData !== undefined ? (
-                        <img
-                            src={apodData.url}
-                            alt={`Error Loading: ${apodData.title}`}
-                            className="apod__image"
-                        ></img>
+                        apodData.media_type === 'image' ? (
+                            <img
+                                src={apodData.url}
+                                alt={`Error Loading: ${apodData.title}`}
+                                className="apod__image"
+                            ></img>
+                        ) : (
+                            <iframe
+                                src={apodData.url}
+                                className="apod__video"
+                            ></iframe>
+                        )
                     ) : (
                         <span>Loading Image</span>
                     )}
